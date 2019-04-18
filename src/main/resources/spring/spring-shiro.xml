@@ -48,7 +48,7 @@
         <property name="realms">
             <list>
                 <ref bean="myRealm"/>
-                <ref bean="myRealmWithSHA1"/>
+<!--                <ref bean="myRealmWithSHA1"/>-->
             </list>
         </property>
     </bean>
@@ -100,7 +100,7 @@
     <!--4.配置lifecycleBeanPostProcessor,可以自动的来调用配置在spring容器中shiro bean 的生命周期方法。-->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
-    <!--5.启用ioc容器中使用shiro的注解，开启注解,配置了配置lifecycleBeanPostProcessor才可以使用-->
+    <!--5.启用ioc容器中使用shiro的注解，开启注解,配置了lifecycleBeanPostProcessor才可以使用-->
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
 
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
