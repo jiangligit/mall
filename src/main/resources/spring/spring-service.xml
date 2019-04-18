@@ -17,4 +17,5 @@
 
     <!--注解AOP-->
     <aop:aspectj-autoproxy/>
+    <bean class="com.rimi.mall.commons.Advice"/>
 </beans>
