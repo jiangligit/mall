@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rimi.mall.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.rimi.mall.pojo.User">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <collection property="roles" ofType="com.rimi.mall.pojo.Role" columnPrefix="r_" >
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+        <collection property="permissions" ofType="com.rimi.mall.pojo.Permission" columnPrefix="p_" >
+          <id column="id" property="id"/>
+          <result column="name" property="name"/>
+          <result column="expression" property="expression"/>
+        </collection>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, `password`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <sql id="select_list">
+    select u.*,
+           r.id         as r_id,
+           r.name       as r_name,
+           p.id         as r_p_id,
+           p.name       as r_p_name,
+           p.expression as r_p_expression
+    from user u left outer join user_role ur on u.id = ur.u_id
+                left outer join role r on r.id = ur.r_id
+                left outer join role_permission rp on rp.r_id = r.id
+                left outer join permission p on rp.p_id = p.id
+
+  </sql>
+  <select id="selectByUsername" resultMap="BaseResultMap">
+    <include refid="select_list"></include>
+    where username = #{username}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+      <include refid="select_list"></include>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.rimi.mall.pojo.User" useGeneratedKeys="true">
+    insert into user (username, `password`)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.rimi.mall.pojo.User" useGeneratedKeys="true">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rimi.mall.pojo.User">
+    update user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rimi.mall.pojo.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
