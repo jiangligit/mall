@@ -21,5 +21,6 @@ public interface IUserService {
      * @return
      */
     List<User> selectAll();
+
     List<User> selectAllWithAnnotation();
 }

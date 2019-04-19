@@ -38,11 +38,31 @@
 
   </sql>
   <select id="selectByUsername" resultMap="BaseResultMap">
-    <include refid="select_list"></include>
+<!--    <include refid="select_list"></include>-->
+    select u.*,
+    r.id         as r_id,
+    r.name       as r_name,
+    p.id         as r_p_id,
+    p.name       as r_p_name,
+    p.expression as r_p_expression
+    from user u left outer join user_role ur on u.id = ur.u_id
+    left outer join role r on r.id = ur.r_id
+    left outer join role_permission rp on rp.r_id = r.id
+    left outer join permission p on rp.p_id = p.id
     where username = #{username}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
-      <include refid="select_list"></include>
+<!--      <include refid="select_list"></include>-->
+      select u.*,
+      r.id         as r_id,
+      r.name       as r_name,
+      p.id         as r_p_id,
+      p.name       as r_p_name,
+      p.expression as r_p_expression
+      from user u left outer join user_role ur on u.id = ur.u_id
+      left outer join role r on r.id = ur.r_id
+      left outer join role_permission rp on rp.r_id = r.id
+      left outer join permission p on rp.p_id = p.id
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from user

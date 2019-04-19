@@ -22,6 +22,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/user")
     public List<User> list(Model model){
+        System.out.println("user/");
         List<User> userList = userService.selectAllWithAnnotation();
         return userList;
     }

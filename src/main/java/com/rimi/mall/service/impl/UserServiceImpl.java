@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +20,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2019-04-15 15:19
  */
 @Service
-@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements IUserService {
 
     @Autowired
@@ -64,7 +62,7 @@ public class UserServiceImpl implements IUserService {
         return  list;
     }
     @Override
-    @Cacheable(value = "user",key = "#root.method")
+//    @Cacheable(value = "user",key = "#root.method")
     public List<User> selectAllWithAnnotation() {
         System.out.println("selectAllWithAnnotation");
         List<User> list = userMapper.selectAll();
