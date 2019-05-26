@@ -5,4 +5,7 @@ public class HelloAction {
 		System.out.println("sayHello被调用");
 		return "success";
 	}
+	public void test() {
+		
+	}
 }
