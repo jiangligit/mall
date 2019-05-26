@@ -6,6 +6,6 @@ public class HelloAction {
 		return "success";
 	}
 	public void test() {
-		
+		System.out.println("hot_fix");
 	}
 }
